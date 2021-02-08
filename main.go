@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"strings"
 )
 
 func main() {
@@ -20,7 +21,9 @@ func main() {
 		return
 	}
 
-	fmt.Println(csvLineas)
+	final := parseLines(csvLineas)
+
+	fmt.Println(final)
 
 	//Mostrar y capturar resultados
 	for i, v := range csvLineas {
@@ -29,4 +32,20 @@ func main() {
 		fmt.Scan(&election)
 	}
 
+}
+
+func parseLines(csvLineas [][]string) []final {
+	devolvemos := make([]final, len(csvLineas))
+	for i, linea := range csvLineas {
+		devolvemos[i] = final{
+			a: linea[0],
+			b: strings.TrimSpace(linea[1]),
+		}
+	}
+	return devolvemos
+}
+
+type final struct {
+	a string
+	b string
 }
