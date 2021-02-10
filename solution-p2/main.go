@@ -1,13 +1,14 @@
-package main
+package solution2
 
 import (
 	"encoding/csv"
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
-func main() {
+func solution2() {
 	//Abro el fichero
 	file, err := os.Open("problems.csv")
 	if err != nil {
@@ -21,28 +22,34 @@ func main() {
 		return
 	}
 
-	final := parseLines(csvLineas)
+	finals := parseLines(csvLineas)
 
-	fmt.Println(final)
+	tiempo := time.NewTimer(time.Duration(30) * time.Second)
+
+	isOK := 0
 
 	//Mostrar y capturar resultados
-	for i, v := range csvLineas {
-		fmt.Printf("Problem #%d: %s = \n", i+1, v)
-		var election int
-		fmt.Scan(&election)
-	}
+	for i, v := range finals {
+		fmt.Printf("Problem #%d: %s = \n", i+1, v.a)
+		var respuesta string
+		fmt.Scanf("%s\n", &respuesta)
+		if respuesta == v.b {
+			isOK++
+		}
 
+	}
+	fmt.Printf("You scored %d out of %d.\n", isOK, len(finals))
 }
 
 func parseLines(csvLineas [][]string) []final {
-	devolvemos := make([]final, len(csvLineas))
+	ret := make([]final, len(csvLineas))
 	for i, linea := range csvLineas {
-		devolvemos[i] = final{
+		ret[i] = final{
 			a: linea[0],
 			b: strings.TrimSpace(linea[1]),
 		}
 	}
-	return devolvemos
+	return ret
 }
 
 type final struct {
